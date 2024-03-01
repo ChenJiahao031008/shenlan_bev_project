@@ -230,10 +230,10 @@ class TransformerEncoderLayer(nn.Module):
         v = get_src
         x, _ = self.self_attn(q, k, v, attn_mask=src_mask,
                               key_padding_mask=src_key_padding_mask)
-        x = self.norm2(get_src + self.dropout1(x))
+        x = self.norm2(src + self.dropout1(x))
 
         x1 = self.ffn(x)
-        x + self.dropout2(x1)
+        x = x + self.dropout2(x1)
         return x
 
     def forward(self, src,
@@ -338,7 +338,8 @@ class TransformerDecoderLayer(nn.Module):
         v1 = get_tgt
         x1, _ = self.self_attn(q1, k1, v1, attn_mask=tgt_mask,
                               key_padding_mask=tgt_key_padding_mask)
-        x1 = self.norm2(tgt + self.dropout1(x1))
+        tgt = tgt + self.dropout1(x1)
+        x1 = self.norm2(tgt)
 
         ## 第二个多头注意力
         q2 = self.with_pos_embed(x1, query_pos)
@@ -346,8 +347,9 @@ class TransformerDecoderLayer(nn.Module):
         v2 = memory
         x2, _ = self.multihead_attn(q2, k2, v2, attn_mask=memory_mask,
                         key_padding_mask=memory_key_padding_mask)
-        x = self.norm3(x1 + self.dropout2(x2))
-        x = x + self.dropout3(self.ffn(x))
+        tgt = tgt + self.dropout2(x2)
+        x2 = self.norm3(tgt)
+        x = tgt + self.dropout3(self.ffn(x2))
         return x
 
     def forward(self, tgt, memory,
