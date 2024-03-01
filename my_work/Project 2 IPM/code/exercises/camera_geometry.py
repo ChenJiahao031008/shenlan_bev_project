@@ -23,11 +23,11 @@ def project_polyline(polyline_world, trafo_world_to_cam, K):
     polyline_world : array_like, shape (M,3)
         Each row of this array is a vertex (x,y,z) of the polyline.
     trafo_world_to_cam : array_like, shape (4,4)
-        Transformation matrix, that maps vectors (x_world, y_world, z_world, 1) 
+        Transformation matrix, that maps vectors (x_world, y_world, z_world, 1)
         to vectors (x_cam, y_cam, z_cam, 1).
     K: array_like, shape (3,3)
-        Intrinsic matrix of  the camera.   
-    
+        Intrinsic matrix of  the camera.
+
     Returns:
     --------
     uv : ndarray, shape (M,2)
@@ -56,7 +56,7 @@ class CameraGeometry(object):
         # camera intriniscs and extrinsics
         self.intrinsic_matrix = get_intrinsic_matrix(field_of_view_deg, image_width, image_height)
         self.inverse_intrinsic_matrix = np.linalg.inv(self.intrinsic_matrix)
-        ## Note that "rotation_cam_to_road" has the math symbol R_{rc} in the book
+
         yaw = np.deg2rad(yaw_deg)
         pitch = np.deg2rad(pitch_deg)
         roll = np.deg2rad(roll_deg)
@@ -66,14 +66,19 @@ class CameraGeometry(object):
         rotation_road_to_cam = np.array([[cr*cy+sp*sr+sy, cr*sp*sy-cy*sr, -cp*sy],
                                             [cp*sr, cp*cr, sp],
                                             [cr*sy-cy*sp*sr, -cr*cy*sp -sr*sy, cp*cy]])
-        self.rotation_cam_to_road = rotation_road_to_cam.T # for rotation matrices, taking the transpose is the same as inversion
 
+        ## Note that "rotation_cam_to_road" has the math symbol R_{rc} in the book
+        self.rotation_cam_to_road = rotation_road_to_cam.T # for rotation matrices, taking the transpose is the same as inversion
         # TODO: replace the 'None' values in the following code with correct expressions
-        
-        self.translation_cam_to_road = None
-        self.trafo_cam_to_road = None
+        position_cam_in_roadframe = np.array([0, -self.height, 0])
+        self.translation_cam_to_road = -np.dot(self.rotation_cam_to_road, position_cam_in_roadframe)
+
+        self.trafo_cam_to_road = np.eye(4)
+        self.trafo_cam_to_road[:3, :3] = self.rotation_cam_to_road
+        self.trafo_cam_to_road[:3, 3] = self.translation_cam_to_road
+
         # compute vector nc. Note that R_{rc}^T = R_{cr}
-        self.road_normal_camframe = None
+        self.road_normal_camframe = rotation_road_to_cam @ np.array([0, 1, 0])
 
 
     def camframe_to_roadframe(self,vec_in_cam_frame):
@@ -84,24 +89,25 @@ class CameraGeometry(object):
         ----------
         vec_in_cam_frame: array_like, shape(3,)
             Three dimensional point in the camera reference frame that lies on the road
-        
+
         Returns:
         --------
         XYZ: array_like, shape(3,)
             Three dimensional point in the road reference frame that lies on the road
         """
         # TODO: Write this function
-        raise NotImplementedError
+        return self.rotation_cam_to_road @ vec_in_cam_frame + self.translation_cam_to_road
+
 
     def uv_to_roadXYZ_camframe(self,u,v):
         """
         Inverse perspective mapping from pixel coordinates to 3d coordinates.
-        
+
         Parameters
         ----------
         u,v: Both float
             Pixel coordinates of some part of the road.
-        
+
         Returns:
         --------
         XYZ: array_like, shape(3,)
@@ -109,18 +115,24 @@ class CameraGeometry(object):
             and was mapped by the camera to pixel coordinates u,v
         """
         # TODO: Write this function
-        raise NotImplementedError
-    
+        pixel_coordinates = np.array([u, v, 1])
+        denominator = self.road_normal_camframe @ (self.inverse_intrinsic_matrix @ pixel_coordinates)
+
+        lamba = self.height / denominator
+        camera_coordinates = lamba * (self.inverse_intrinsic_matrix @ pixel_coordinates)
+
+        return camera_coordinates
+
 
     def uv_to_roadXYZ_roadframe_iso8855(self,u,v):
         """
         Inverse perspective mapping from pixel coordinates to 3d coordinates in road fram iso8855.
-        
+
         Parameters
         ----------
         u,v: Both float
             Pixel coordinates of some part of the road.
-        
+
         Returns:
         --------
         XYZ: array_like, shape(3,)
@@ -128,4 +140,9 @@ class CameraGeometry(object):
             and was mapped by the camera to pixel coordinates u,v
         """
         # TODO: Write this function
-        raise NotImplementedError
+        # raise NotImplementedError
+        roadXYZ_roadframe = self.uv_to_roadXYZ_camframe(u,v)
+        tranform_iso8855_roadframe = np.array([[0, 0, 1], [-1, 0, 0], [0, -1, 0]])
+        roadXYZ_roadframe_iso8855 = tranform_iso8855_roadframe @ roadXYZ_roadframe
+
+        return roadXYZ_roadframe_iso8855
