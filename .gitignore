@@ -28,7 +28,7 @@
 *.out
 
 *.pth
-
+*.pt
 installer
 my_work/data
 my_work/Project 1 Vision Transformer/panopticapi/build

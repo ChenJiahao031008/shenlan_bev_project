@@ -396,6 +396,14 @@
         "documentation": {}
     },
     {
+        "label": "nn",
+        "importPath": "torch",
+        "description": "torch",
+        "isExtraImport": true,
+        "detail": "torch",
+        "documentation": {}
+    },
+    {
         "label": "detection_utils",
         "importPath": "detectron2.data",
         "description": "detectron2.data",
@@ -1204,6 +1212,14 @@
     },
     {
         "label": "PurePath",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
         "importPath": "pathlib",
         "description": "pathlib",
         "isExtraImport": true,
@@ -2234,6 +2250,48 @@
         "description": "hubconf",
         "isExtraImport": true,
         "detail": "hubconf",
+        "documentation": {}
+    },
+    {
+        "label": "camera_geometry",
+        "importPath": "exercises",
+        "description": "exercises",
+        "isExtraImport": true,
+        "detail": "exercises",
+        "documentation": {}
+    },
+    {
+        "label": "cv2",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "cv2",
+        "description": "cv2",
+        "detail": "cv2",
+        "documentation": {}
+    },
+    {
+        "label": "EfficientNet",
+        "importPath": "efficientnet_pytorch",
+        "description": "efficientnet_pytorch",
+        "isExtraImport": true,
+        "detail": "efficientnet_pytorch",
+        "documentation": {}
+    },
+    {
+        "label": "resnet18",
+        "importPath": "torchvision.models.resnet",
+        "description": "torchvision.models.resnet",
+        "isExtraImport": true,
+        "detail": "torchvision.models.resnet",
+        "documentation": {}
+    },
+    {
+        "label": "matplotlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "matplotlib",
+        "description": "matplotlib",
+        "detail": "matplotlib",
         "documentation": {}
     },
     {
@@ -4086,8 +4144,305 @@
         "kind": 2,
         "importPath": "my_work.Project 2 IPM.code.exercises.camera_geometry",
         "description": "my_work.Project 2 IPM.code.exercises.camera_geometry",
-        "peekOfCode": "def project_polyline(polyline_world, trafo_world_to_cam, K):\n    \"\"\"\n    Returns array uv which contains the pixel coordinates of the polyline.\n    Parameters\n    ----------\n    polyline_world : array_like, shape (M,3)\n        Each row of this array is a vertex (x,y,z) of the polyline.\n    trafo_world_to_cam : array_like, shape (4,4)\n        Transformation matrix, that maps vectors (x_world, y_world, z_world, 1) \n        to vectors (x_cam, y_cam, z_cam, 1).",
+        "peekOfCode": "def project_polyline(polyline_world, trafo_world_to_cam, K):\n    \"\"\"\n    Returns array uv which contains the pixel coordinates of the polyline.\n    Parameters\n    ----------\n    polyline_world : array_like, shape (M,3)\n        Each row of this array is a vertex (x,y,z) of the polyline.\n    trafo_world_to_cam : array_like, shape (4,4)\n        Transformation matrix, that maps vectors (x_world, y_world, z_world, 1)\n        to vectors (x_cam, y_cam, z_cam, 1).",
         "detail": "my_work.Project 2 IPM.code.exercises.camera_geometry",
+        "documentation": {}
+    },
+    {
+        "label": "map_between_frames",
+        "kind": 2,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "def map_between_frames(points, trafo_matrix):\n    x,y,z = points[:,0], points[:,1], points[:,2]\n    homvec = np.stack((x,y,z,np.ones_like(x)))\n    return (trafo_matrix @ homvec).T\ntrafo_cam_to_world = np.linalg.inv(trafo_world_to_cam)\nreconstructed_lb_3d_world = map_between_frames(reconstructed_lb_3d_cam, trafo_cam_to_world)\n# # plot both ground truth and reconstructed left boundary 3d in X-Y-plane\n# plt.plot(left_boundary_3d_gt_world[:,0], left_boundary_3d_gt_world[:,1], label=\"ground truth\")\n# plt.plot(reconstructed_lb_3d_world[:,0], reconstructed_lb_3d_world[:,1], ls = \"--\", label=\"reconstructed\")\n# plt.axis(\"equal\")",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "image_fn",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "image_fn = str(Path(\"../../data/sample.png\").absolute())\nimage = cv2.imread(image_fn)\nimage = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)\n# obtain gt world coordinates of the lane boundaries\nboundary_fn = image_fn.replace(\".png\", \"_boundary.txt\")\nboundary_gt = np.loadtxt(boundary_fn)\n# obtain transformation matrix from world coordinates to camera reference frame\ntrafo_fn = image_fn.replace(\".png\", \"_trafo.txt\")\ntrafo_world_to_cam = np.loadtxt(trafo_fn)\ncg = camera_geometry.CameraGeometry()",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "image",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "image = cv2.imread(image_fn)\nimage = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)\n# obtain gt world coordinates of the lane boundaries\nboundary_fn = image_fn.replace(\".png\", \"_boundary.txt\")\nboundary_gt = np.loadtxt(boundary_fn)\n# obtain transformation matrix from world coordinates to camera reference frame\ntrafo_fn = image_fn.replace(\".png\", \"_trafo.txt\")\ntrafo_world_to_cam = np.loadtxt(trafo_fn)\ncg = camera_geometry.CameraGeometry()\nK = cg.intrinsic_matrix",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "image",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)\n# obtain gt world coordinates of the lane boundaries\nboundary_fn = image_fn.replace(\".png\", \"_boundary.txt\")\nboundary_gt = np.loadtxt(boundary_fn)\n# obtain transformation matrix from world coordinates to camera reference frame\ntrafo_fn = image_fn.replace(\".png\", \"_trafo.txt\")\ntrafo_world_to_cam = np.loadtxt(trafo_fn)\ncg = camera_geometry.CameraGeometry()\nK = cg.intrinsic_matrix\n# obtain left lane boundary gt coordinates",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "boundary_fn",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "boundary_fn = image_fn.replace(\".png\", \"_boundary.txt\")\nboundary_gt = np.loadtxt(boundary_fn)\n# obtain transformation matrix from world coordinates to camera reference frame\ntrafo_fn = image_fn.replace(\".png\", \"_trafo.txt\")\ntrafo_world_to_cam = np.loadtxt(trafo_fn)\ncg = camera_geometry.CameraGeometry()\nK = cg.intrinsic_matrix\n# obtain left lane boundary gt coordinates\nleft_boundary_3d_gt_world = boundary_gt[:,0:3]\n# transform world coordinates into the camera coordinate system, and then project them to image coordinates (u,v)",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "boundary_gt",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "boundary_gt = np.loadtxt(boundary_fn)\n# obtain transformation matrix from world coordinates to camera reference frame\ntrafo_fn = image_fn.replace(\".png\", \"_trafo.txt\")\ntrafo_world_to_cam = np.loadtxt(trafo_fn)\ncg = camera_geometry.CameraGeometry()\nK = cg.intrinsic_matrix\n# obtain left lane boundary gt coordinates\nleft_boundary_3d_gt_world = boundary_gt[:,0:3]\n# transform world coordinates into the camera coordinate system, and then project them to image coordinates (u,v)\nuv = camera_geometry.project_polyline(left_boundary_3d_gt_world, trafo_world_to_cam, K)",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "trafo_fn",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "trafo_fn = image_fn.replace(\".png\", \"_trafo.txt\")\ntrafo_world_to_cam = np.loadtxt(trafo_fn)\ncg = camera_geometry.CameraGeometry()\nK = cg.intrinsic_matrix\n# obtain left lane boundary gt coordinates\nleft_boundary_3d_gt_world = boundary_gt[:,0:3]\n# transform world coordinates into the camera coordinate system, and then project them to image coordinates (u,v)\nuv = camera_geometry.project_polyline(left_boundary_3d_gt_world, trafo_world_to_cam, K)\nu,v = uv[:,0], uv[:,1]\n# # visualization",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "trafo_world_to_cam",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "trafo_world_to_cam = np.loadtxt(trafo_fn)\ncg = camera_geometry.CameraGeometry()\nK = cg.intrinsic_matrix\n# obtain left lane boundary gt coordinates\nleft_boundary_3d_gt_world = boundary_gt[:,0:3]\n# transform world coordinates into the camera coordinate system, and then project them to image coordinates (u,v)\nuv = camera_geometry.project_polyline(left_boundary_3d_gt_world, trafo_world_to_cam, K)\nu,v = uv[:,0], uv[:,1]\n# # visualization\n# plt.plot(u,v)",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "cg",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "cg = camera_geometry.CameraGeometry()\nK = cg.intrinsic_matrix\n# obtain left lane boundary gt coordinates\nleft_boundary_3d_gt_world = boundary_gt[:,0:3]\n# transform world coordinates into the camera coordinate system, and then project them to image coordinates (u,v)\nuv = camera_geometry.project_polyline(left_boundary_3d_gt_world, trafo_world_to_cam, K)\nu,v = uv[:,0], uv[:,1]\n# # visualization\n# plt.plot(u,v)\n# plt.imshow(image)",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "K",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "K = cg.intrinsic_matrix\n# obtain left lane boundary gt coordinates\nleft_boundary_3d_gt_world = boundary_gt[:,0:3]\n# transform world coordinates into the camera coordinate system, and then project them to image coordinates (u,v)\nuv = camera_geometry.project_polyline(left_boundary_3d_gt_world, trafo_world_to_cam, K)\nu,v = uv[:,0], uv[:,1]\n# # visualization\n# plt.plot(u,v)\n# plt.imshow(image)\n# plt.savefig(\"raw_image.jpg\")",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "left_boundary_3d_gt_world",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "left_boundary_3d_gt_world = boundary_gt[:,0:3]\n# transform world coordinates into the camera coordinate system, and then project them to image coordinates (u,v)\nuv = camera_geometry.project_polyline(left_boundary_3d_gt_world, trafo_world_to_cam, K)\nu,v = uv[:,0], uv[:,1]\n# # visualization\n# plt.plot(u,v)\n# plt.imshow(image)\n# plt.savefig(\"raw_image.jpg\")\n# Reconstruct the left boundary starting from the known u,v\nreconstructed_lb_3d_cam = []",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "uv",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "uv = camera_geometry.project_polyline(left_boundary_3d_gt_world, trafo_world_to_cam, K)\nu,v = uv[:,0], uv[:,1]\n# # visualization\n# plt.plot(u,v)\n# plt.imshow(image)\n# plt.savefig(\"raw_image.jpg\")\n# Reconstruct the left boundary starting from the known u,v\nreconstructed_lb_3d_cam = []\nfor u,v in uv:\n    xyz = cg.uv_to_roadXYZ_camframe(u,v)",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "u,v",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "u,v = uv[:,0], uv[:,1]\n# # visualization\n# plt.plot(u,v)\n# plt.imshow(image)\n# plt.savefig(\"raw_image.jpg\")\n# Reconstruct the left boundary starting from the known u,v\nreconstructed_lb_3d_cam = []\nfor u,v in uv:\n    xyz = cg.uv_to_roadXYZ_camframe(u,v)\n    reconstructed_lb_3d_cam.append(xyz)",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "reconstructed_lb_3d_cam",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "reconstructed_lb_3d_cam = []\nfor u,v in uv:\n    xyz = cg.uv_to_roadXYZ_camframe(u,v)\n    reconstructed_lb_3d_cam.append(xyz)\nreconstructed_lb_3d_cam = np.array(reconstructed_lb_3d_cam)\n# Map reconstructed left boundary into world reference frame\ndef map_between_frames(points, trafo_matrix):\n    x,y,z = points[:,0], points[:,1], points[:,2]\n    homvec = np.stack((x,y,z,np.ones_like(x)))\n    return (trafo_matrix @ homvec).T",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "reconstructed_lb_3d_cam",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "reconstructed_lb_3d_cam = np.array(reconstructed_lb_3d_cam)\n# Map reconstructed left boundary into world reference frame\ndef map_between_frames(points, trafo_matrix):\n    x,y,z = points[:,0], points[:,1], points[:,2]\n    homvec = np.stack((x,y,z,np.ones_like(x)))\n    return (trafo_matrix @ homvec).T\ntrafo_cam_to_world = np.linalg.inv(trafo_world_to_cam)\nreconstructed_lb_3d_world = map_between_frames(reconstructed_lb_3d_cam, trafo_cam_to_world)\n# # plot both ground truth and reconstructed left boundary 3d in X-Y-plane\n# plt.plot(left_boundary_3d_gt_world[:,0], left_boundary_3d_gt_world[:,1], label=\"ground truth\")",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "trafo_cam_to_world",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "trafo_cam_to_world = np.linalg.inv(trafo_world_to_cam)\nreconstructed_lb_3d_world = map_between_frames(reconstructed_lb_3d_cam, trafo_cam_to_world)\n# # plot both ground truth and reconstructed left boundary 3d in X-Y-plane\n# plt.plot(left_boundary_3d_gt_world[:,0], left_boundary_3d_gt_world[:,1], label=\"ground truth\")\n# plt.plot(reconstructed_lb_3d_world[:,0], reconstructed_lb_3d_world[:,1], ls = \"--\", label=\"reconstructed\")\n# plt.axis(\"equal\")\n# plt.legend()\n# plt.savefig(\"boundary_world_frame.jpg\")\n# compare ground truth and reconstructed boundary in road frame\ntrafo_world_to_road = cg.trafo_cam_to_road @ trafo_world_to_cam",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "reconstructed_lb_3d_world",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "reconstructed_lb_3d_world = map_between_frames(reconstructed_lb_3d_cam, trafo_cam_to_world)\n# # plot both ground truth and reconstructed left boundary 3d in X-Y-plane\n# plt.plot(left_boundary_3d_gt_world[:,0], left_boundary_3d_gt_world[:,1], label=\"ground truth\")\n# plt.plot(reconstructed_lb_3d_world[:,0], reconstructed_lb_3d_world[:,1], ls = \"--\", label=\"reconstructed\")\n# plt.axis(\"equal\")\n# plt.legend()\n# plt.savefig(\"boundary_world_frame.jpg\")\n# compare ground truth and reconstructed boundary in road frame\ntrafo_world_to_road = cg.trafo_cam_to_road @ trafo_world_to_cam\nleft_boundary_3d_gt_road = map_between_frames(left_boundary_3d_gt_world, trafo_world_to_road)",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "trafo_world_to_road",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "trafo_world_to_road = cg.trafo_cam_to_road @ trafo_world_to_cam\nleft_boundary_3d_gt_road = map_between_frames(left_boundary_3d_gt_world, trafo_world_to_road)\nreconstructed_lb_3d_road = map_between_frames(reconstructed_lb_3d_cam, cg.trafo_cam_to_road)\n# # plot both ground truth and reconstructed left boundary 3d in Z-(-X)-plane (which is X-Y in road iso 8855)\n# plt.plot(left_boundary_3d_gt_road[:,2], -left_boundary_3d_gt_road[:,0], label=\"ground truth\")\n# plt.plot(reconstructed_lb_3d_road[:,2], -reconstructed_lb_3d_road[:,0], ls = \"--\", label=\"reconstructed\")\n# plt.axis(\"equal\")\n# plt.legend()\n# plt.savefig(\"boundary_road_frame_1.jpg\")\n# Reconstruct the left boundary starting from the known u,v",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "left_boundary_3d_gt_road",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "left_boundary_3d_gt_road = map_between_frames(left_boundary_3d_gt_world, trafo_world_to_road)\nreconstructed_lb_3d_road = map_between_frames(reconstructed_lb_3d_cam, cg.trafo_cam_to_road)\n# # plot both ground truth and reconstructed left boundary 3d in Z-(-X)-plane (which is X-Y in road iso 8855)\n# plt.plot(left_boundary_3d_gt_road[:,2], -left_boundary_3d_gt_road[:,0], label=\"ground truth\")\n# plt.plot(reconstructed_lb_3d_road[:,2], -reconstructed_lb_3d_road[:,0], ls = \"--\", label=\"reconstructed\")\n# plt.axis(\"equal\")\n# plt.legend()\n# plt.savefig(\"boundary_road_frame_1.jpg\")\n# Reconstruct the left boundary starting from the known u,v\nreconstructed_lb_3d_road_iso = []",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "reconstructed_lb_3d_road",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "reconstructed_lb_3d_road = map_between_frames(reconstructed_lb_3d_cam, cg.trafo_cam_to_road)\n# # plot both ground truth and reconstructed left boundary 3d in Z-(-X)-plane (which is X-Y in road iso 8855)\n# plt.plot(left_boundary_3d_gt_road[:,2], -left_boundary_3d_gt_road[:,0], label=\"ground truth\")\n# plt.plot(reconstructed_lb_3d_road[:,2], -reconstructed_lb_3d_road[:,0], ls = \"--\", label=\"reconstructed\")\n# plt.axis(\"equal\")\n# plt.legend()\n# plt.savefig(\"boundary_road_frame_1.jpg\")\n# Reconstruct the left boundary starting from the known u,v\nreconstructed_lb_3d_road_iso = []\nfor u,v in uv:",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "reconstructed_lb_3d_road_iso",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "reconstructed_lb_3d_road_iso = []\nfor u,v in uv:\n    xyz = cg.uv_to_roadXYZ_roadframe_iso8855(u,v)\n    reconstructed_lb_3d_road_iso.append(xyz)\nreconstructed_lb_3d_road_iso = np.array(reconstructed_lb_3d_road_iso)\nplt.plot(left_boundary_3d_gt_road[:,2], -left_boundary_3d_gt_road[:,0], label=\"ground truth\")\nplt.plot(reconstructed_lb_3d_road_iso[:,0], reconstructed_lb_3d_road_iso[:,1], ls = \"--\", label=\"reconstructed\")\nplt.axis(\"equal\")\nplt.legend()\nplt.savefig(\"boundary_road_frame_2.jpg\")",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "reconstructed_lb_3d_road_iso",
+        "kind": 5,
+        "importPath": "my_work.Project 2 IPM.code.exercises.test",
+        "description": "my_work.Project 2 IPM.code.exercises.test",
+        "peekOfCode": "reconstructed_lb_3d_road_iso = np.array(reconstructed_lb_3d_road_iso)\nplt.plot(left_boundary_3d_gt_road[:,2], -left_boundary_3d_gt_road[:,0], label=\"ground truth\")\nplt.plot(reconstructed_lb_3d_road_iso[:,0], reconstructed_lb_3d_road_iso[:,1], ls = \"--\", label=\"reconstructed\")\nplt.axis(\"equal\")\nplt.legend()\nplt.savefig(\"boundary_road_frame_2.jpg\")",
+        "detail": "my_work.Project 2 IPM.code.exercises.test",
+        "documentation": {}
+    },
+    {
+        "label": "Up",
+        "kind": 6,
+        "importPath": "my_work.Project 3 LSS.exercises.models",
+        "description": "my_work.Project 3 LSS.exercises.models",
+        "peekOfCode": "class Up(nn.Module):\n    def __init__(self, in_channels, out_channels, scale_factor=2):\n        super().__init__()\n        self.up = nn.Upsample(scale_factor=scale_factor, mode='bilinear',\n                              align_corners=True)\n        self.conv = nn.Sequential(\n            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, bias=False),\n            nn.BatchNorm2d(out_channels),\n            nn.ReLU(inplace=True),\n            nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1, bias=False),",
+        "detail": "my_work.Project 3 LSS.exercises.models",
+        "documentation": {}
+    },
+    {
+        "label": "CamEncode",
+        "kind": 6,
+        "importPath": "my_work.Project 3 LSS.exercises.models",
+        "description": "my_work.Project 3 LSS.exercises.models",
+        "peekOfCode": "class CamEncode(nn.Module):\n    def __init__(self, D, C, downsample):\n        super(CamEncode, self).__init__()\n        self.D = D\n        self.C = C\n        self.trunk = EfficientNet.from_pretrained(\"efficientnet-b0\")\n        self.up1 = Up(320+112, 512)\n        self.depthnet = nn.Conv2d(512, self.D + self.C, kernel_size=1, padding=0)\n    def get_depth_dist(self, x, eps=1e-20):\n        return x.softmax(dim=1)",
+        "detail": "my_work.Project 3 LSS.exercises.models",
+        "documentation": {}
+    },
+    {
+        "label": "BevEncode",
+        "kind": 6,
+        "importPath": "my_work.Project 3 LSS.exercises.models",
+        "description": "my_work.Project 3 LSS.exercises.models",
+        "peekOfCode": "class BevEncode(nn.Module):\n    def __init__(self, inC, outC):\n        super(BevEncode, self).__init__()\n        trunk = resnet18(pretrained=False, zero_init_residual=True)\n        self.conv1 = nn.Conv2d(inC, 64, kernel_size=7, stride=2, padding=3,\n                               bias=False)\n        self.bn1 = trunk.bn1\n        self.relu = trunk.relu\n        self.layer1 = trunk.layer1\n        self.layer2 = trunk.layer2",
+        "detail": "my_work.Project 3 LSS.exercises.models",
+        "documentation": {}
+    },
+    {
+        "label": "LiftSplatShoot",
+        "kind": 6,
+        "importPath": "my_work.Project 3 LSS.exercises.models",
+        "description": "my_work.Project 3 LSS.exercises.models",
+        "peekOfCode": "class LiftSplatShoot(nn.Module):\n    def __init__(self, grid_conf, data_aug_conf, outC):\n        super(LiftSplatShoot, self).__init__()\n        self.grid_conf = grid_conf\n        self.data_aug_conf = data_aug_conf\n        dx, bx, nx = gen_dx_bx(self.grid_conf['xbound'],\n                                              self.grid_conf['ybound'],\n                                              self.grid_conf['zbound'],\n                                              )\n        self.dx = nn.Parameter(dx, requires_grad=False)",
+        "detail": "my_work.Project 3 LSS.exercises.models",
+        "documentation": {}
+    },
+    {
+        "label": "compile_model",
+        "kind": 2,
+        "importPath": "my_work.Project 3 LSS.exercises.models",
+        "description": "my_work.Project 3 LSS.exercises.models",
+        "peekOfCode": "def compile_model(grid_conf, data_aug_conf, outC):\n    return LiftSplatShoot(grid_conf, data_aug_conf, outC)",
+        "detail": "my_work.Project 3 LSS.exercises.models",
+        "documentation": {}
+    },
+    {
+        "label": "NormalizeInverse",
+        "kind": 6,
+        "importPath": "my_work.Project 3 LSS.exercises.tool",
+        "description": "my_work.Project 3 LSS.exercises.tool",
+        "peekOfCode": "class NormalizeInverse(torchvision.transforms.Normalize):\n    #  https://discuss.pytorch.org/t/simple-way-to-inverse-transform-normalization/4821/8\n    def __init__(self, mean, std):\n        mean = torch.as_tensor(mean)\n        std = torch.as_tensor(std)\n        std_inv = 1 / (std + 1e-7)\n        mean_inv = -mean * std_inv\n        super().__init__(mean=mean_inv, std=std_inv)\n    def __call__(self, tensor):\n        return super().__call__(tensor.clone())",
+        "detail": "my_work.Project 3 LSS.exercises.tool",
+        "documentation": {}
+    },
+    {
+        "label": "gen_dx_bx",
+        "kind": 2,
+        "importPath": "my_work.Project 3 LSS.exercises.tool",
+        "description": "my_work.Project 3 LSS.exercises.tool",
+        "peekOfCode": "def gen_dx_bx(xbound, ybound, zbound):\n    dx = torch.Tensor([row[2] for row in [xbound, ybound, zbound]])\n    bx = torch.Tensor([row[0] + row[2]/2.0 for row in [xbound, ybound, zbound]])\n    nx = torch.LongTensor([(row[1] - row[0]) / row[2] for row in [xbound, ybound, zbound]])\n    return dx, bx, nx\ndef cumsum_trick(x, geom_feats, ranks):\n    \"\"\"\n    Sum pooling point cloud features in each voxel\n    Parameters\n    ----------",
+        "detail": "my_work.Project 3 LSS.exercises.tool",
+        "documentation": {}
+    },
+    {
+        "label": "cumsum_trick",
+        "kind": 2,
+        "importPath": "my_work.Project 3 LSS.exercises.tool",
+        "description": "my_work.Project 3 LSS.exercises.tool",
+        "peekOfCode": "def cumsum_trick(x, geom_feats, ranks):\n    \"\"\"\n    Sum pooling point cloud features in each voxel\n    Parameters\n    ----------\n    x : array_like, shape (N',C), N' refers to the number of points after filter\n        features of point cloud.\n    geom_feats : array_like, shape (N',4)\n        voxel coordinates of points in BEV space, the last dimension represents batch_ix\n    ranks: array_like, shape (N')",
+        "detail": "my_work.Project 3 LSS.exercises.tool",
+        "documentation": {}
+    },
+    {
+        "label": "add_ego",
+        "kind": 2,
+        "importPath": "my_work.Project 3 LSS.exercises.tool",
+        "description": "my_work.Project 3 LSS.exercises.tool",
+        "peekOfCode": "def add_ego(bx, dx):\n    # approximate rear axel\n    W = 1.85\n    pts = np.array([\n        [-4.084/2.+0.5, W/2.],\n        [4.084/2.+0.5, W/2.],\n        [4.084/2.+0.5, -W/2.],\n        [-4.084/2.+0.5, -W/2.],\n    ])\n    pts = (pts - bx) / dx",
+        "detail": "my_work.Project 3 LSS.exercises.tool",
+        "documentation": {}
+    },
+    {
+        "label": "denormalize_img",
+        "kind": 5,
+        "importPath": "my_work.Project 3 LSS.exercises.tool",
+        "description": "my_work.Project 3 LSS.exercises.tool",
+        "peekOfCode": "denormalize_img = torchvision.transforms.Compose((\n            NormalizeInverse(mean=[0.485, 0.456, 0.406],\n                             std=[0.229, 0.224, 0.225]),\n            torchvision.transforms.ToPILImage(),\n        ))\nnormalize_img = torchvision.transforms.Compose((\n                torchvision.transforms.ToTensor(),\n                torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406],\n                                 std=[0.229, 0.224, 0.225]),\n))",
+        "detail": "my_work.Project 3 LSS.exercises.tool",
+        "documentation": {}
+    },
+    {
+        "label": "normalize_img",
+        "kind": 5,
+        "importPath": "my_work.Project 3 LSS.exercises.tool",
+        "description": "my_work.Project 3 LSS.exercises.tool",
+        "peekOfCode": "normalize_img = torchvision.transforms.Compose((\n                torchvision.transforms.ToTensor(),\n                torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406],\n                                 std=[0.229, 0.224, 0.225]),\n))\ndef gen_dx_bx(xbound, ybound, zbound):\n    dx = torch.Tensor([row[2] for row in [xbound, ybound, zbound]])\n    bx = torch.Tensor([row[0] + row[2]/2.0 for row in [xbound, ybound, zbound]])\n    nx = torch.LongTensor([(row[1] - row[0]) / row[2] for row in [xbound, ybound, zbound]])\n    return dx, bx, nx",
+        "detail": "my_work.Project 3 LSS.exercises.tool",
         "documentation": {}
     }
 ]

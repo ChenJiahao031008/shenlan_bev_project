@@ -4,5 +4,6 @@ docker run -itd \
     --network=host \
     -v /media/idriver/My\ Passport/dataset:/data \
     -v /home/idriver/workspace/my_work/shenlan_bev_project/my_work:/my_work \
+    -p 7666:7666 \
     --name my-bev-docker \
     bev-playground:v1.0 bash
