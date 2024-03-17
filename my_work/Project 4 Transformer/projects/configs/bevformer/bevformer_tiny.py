@@ -20,9 +20,6 @@ plugin_dir = 'projects/mmdet3d_plugin/'
 point_cloud_range = [-51.2, -51.2, -5.0, 51.2, 51.2, 3.0]
 voxel_size = [0.2, 0.2, 8]
 
-
-
-
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 
@@ -170,7 +167,7 @@ model = dict(
             pc_range=point_cloud_range))))
 
 dataset_type = 'CustomNuScenesDataset'
-data_root = 'data/nuscenes/'
+data_root = '/data/nuscenes/'
 file_client_args = dict(backend='disk')
 
 
@@ -190,7 +187,7 @@ train_pipeline = [
 test_pipeline = [
     dict(type='LoadMultiViewImageFromFiles', to_float32=True),
     dict(type='NormalizeMultiviewImage', **img_norm_cfg),
-   
+
     dict(
         type='MultiScaleFlipAug3D',
         img_scale=(1600, 900),
@@ -209,7 +206,7 @@ test_pipeline = [
 
 data = dict(
     samples_per_gpu=1,
-    workers_per_gpu=4,
+    workers_per_gpu=2,
     train=dict(
         type=dataset_type,
         data_root=data_root,

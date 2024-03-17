@@ -7,7 +7,7 @@ class_names = [
     'motorcycle', 'pedestrian', 'traffic_cone', 'barrier'
 ]
 dataset_type = 'NuScenesDataset'
-data_root = 'data/nuscenes/'
+data_root = '/data/nuscenes/'
 # Input modality for nuScenes dataset, this is consistent with the submission
 # format which requires the information in input_modality.
 input_modality = dict(
@@ -104,8 +104,8 @@ eval_pipeline = [
 ]
 
 data = dict(
-    samples_per_gpu=4,
-    workers_per_gpu=4,
+    samples_per_gpu=1,
+    workers_per_gpu=2,
     train=dict(
         type=dataset_type,
         data_root=data_root,

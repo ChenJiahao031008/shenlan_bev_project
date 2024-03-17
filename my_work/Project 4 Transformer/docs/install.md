@@ -30,7 +30,7 @@ pip install mmcv-full==1.4.0
 
 **d. Install mmdet and mmseg.**
 ```shell
-pip install mmdet==2.14.0
+pip install mmcv-full==1.4.0 mmdet==2.14.0 mmsegmentation==0.14.1
 pip install mmsegmentation==0.14.1
 ```
 
